@@ -31,7 +31,9 @@ Vagrant.configure(2) do |config|
       mv rio-#{RIO_VERSION}-linux-amd64/rio /opt/bin/
       rm -rf rio-#{RIO_VERSION}-linux-amd64
 
-      cp /vagrant/start.sh /etc/init.d/start.sh
+      cp /vagrant/rio-server /etc/init.d/rio-server
+      cd /etc/init.d
+      ln -s rio-server S70rio-server
     EOT
   end
 end
