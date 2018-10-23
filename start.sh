@@ -14,4 +14,10 @@ if [ ! -L /var/lib/rancher ]; then
 fi
 
 # Stop Docker to release cgroups
+for i in {1..10}; do
+  if /etc/init.d/docker status > /dev/null 2>&1; then
+    break
+  fi
+  sleep 0.5
+done
 /etc/init.d/docker stop
