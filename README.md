@@ -55,13 +55,6 @@ time="2018-10-23T20:19:12Z" level=info msg="Node token is available at /var/lib/
 time="2018-10-23T20:19:12Z" level=info msg="To use CLI: rio login -s https://192.168.0.7:7443 -t R1034cf73f8b6279e2b379117923b2a1265b99788997dc82aa0daf81f036eed38c8::admin:267b469a0bb1cefb8be01a7a85ff4e99"
 time="2018-10-23T20:19:12Z" level=info msg="To join node to cluster: rio agent -s https://192.168.0.7:7443 -t R1034cf73f8b6279e2b379117923b2a1265b99788997dc82aa0daf81f036eed38c8::node:e815c493ce5b4e7241cfe00a4cec80d6"
 time="2018-10-23T20:19:14Z" level=info msg="Agent starting, logging to /var/lib/rancher/rio/agent/agent.log"
-```
-
-And then at another terminal,
-
-```
-$ make ssh
-Welcome to Barge 2.10.1, Docker version 1.10.3, build 20f81dd
 [bargee@barge ~]$ rio login -s https://192.168.0.7:7443 -t R1034cf73f8b6279e2b379117923b2a1265b99788997dc82aa0daf81f036eed38c8::admin:267b469a0bb1cefb8be01a7a85ff4e99
 INFO[0001] Log in successful
 [bargee@barge ~]$ rio ps -c
