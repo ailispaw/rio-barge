@@ -67,3 +67,50 @@ INFO[0000] Log in successful
 NAME    STATUS   ROLES    AGE   VERSION
 barge   Ready    <none>   21s   v1.12.2-lite4
 ```
+
+## Try an example
+
+https://github.com/rancher/rio/blob/master/README.md#rio-stage-options-service_id_name
+
+```
+[bargee@barge ~]$ rio run -p 80/http --name test/svc --scale=3 ibuildthecloud/demo:v1
+test-3739a4f2:svc
+[bargee@barge ~]$ rio ps
+NAME       IMAGE                    CREATED          SCALE     STATE     ENDPOINT                                         EXTERNAL   DETAIL
+test/svc   ibuildthecloud/demo:v1   59 seconds ago   3         active    https://svc-test-km4l9.vt3gnv.lb.rancher.cloud
+[bargee@barge ~]$ wget -qO- --no-check-certificate https://svc-test-km4l9.vt3gnv.lb.rancher.cloud
+Hello World
+[bargee@barge ~]$ rio stage --image=ibuildthecloud/demo:v3 test/svc:v3
+test-3739a4f2:svc-v3
+[bargee@barge ~]$ rio ps
+NAME          IMAGE                    CREATED          SCALE     STATE     ENDPOINT                                            EXTERNAL   DETAIL
+test/svc:v3   ibuildthecloud/demo:v3   11 seconds ago   3         active    https://svc-v3-test-km4l9.vt3gnv.lb.rancher.cloud
+test/svc      ibuildthecloud/demo:v1   5 minutes ago    3         active    https://svc-test-km4l9.vt3gnv.lb.rancher.cloud
+[bargee@barge ~]$ wget -qO- --no-check-certificate https://svc-v3-test-km4l9.vt3gnv.lb.rancher.cloud
+Hello World v3
+[bargee@barge ~]$ rio export test
+services:
+  svc:
+    image: ibuildthecloud/demo:v1
+    ports:
+    - 80/http
+    revisions:
+      v3:
+        image: ibuildthecloud/demo:v3
+        ports:
+        - 80/http
+        scale: 3
+    scale: 3
+[bargee@barge ~]$ rio weight test/svc:v3=50%
+test-3739a4f2:svc-v3
+[bargee@barge ~]$ wget -qO- --no-check-certificate https://svc-test-km4l9.vt3gnv.lb.rancher.cloud
+Hello World v3
+[bargee@barge ~]$ wget -qO- --no-check-certificate https://svc-test-km4l9.vt3gnv.lb.rancher.cloud
+Hello World
+[bargee@barge ~]$ rio promote test/svc:v3
+test-3739a4f2:svc-v3
+[bargee@barge ~]$ wget -qO- --no-check-certificate https://svc-test-km4l9.vt3gnv.lb.rancher.cloud
+Hello World v3
+[bargee@barge ~]$ wget -qO- --no-check-certificate https://svc-test-km4l9.vt3gnv.lb.rancher.cloud
+Hello World v3
+```
