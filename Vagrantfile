@@ -8,8 +8,7 @@ module VagrantPlugins
   end
 end
 
-RIO_TAG     = "v0.0.3-nocoredump"
-RIO_VERSION = "a3cf940a-dirty"
+RIO_VERSION = "v0.0.4-r6"
 
 Vagrant.configure(2) do |config|
   config.vm.define "rio-barge"
@@ -29,7 +28,7 @@ Vagrant.configure(2) do |config|
       set -e
 
       echo "Installing rio..."
-      wget -qO- https://github.com/ailispaw/rio/releases/download/#{RIO_TAG}/rio-#{RIO_VERSION}-linux-amd64.tar.gz | tar xz
+      wget -qO- https://github.com/rancher/rio/releases/download/#{RIO_VERSION}/rio-#{RIO_VERSION}-linux-amd64.tar.gz | tar xz
       mv rio-#{RIO_VERSION}-linux-amd64/rio /opt/bin/
       rm -rf rio-#{RIO_VERSION}-linux-amd64
 
