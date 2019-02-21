@@ -5,7 +5,8 @@ NETWORK_ADAPTER := en0
 ID := `cat .vagrant/machines/$(VM_NAME)/virtualbox/id`
 
 provision:
-	@vagrant up
+	@vagrant up --no-provision
+	@vagrant provision
 	@vagrant ssh-config > .ssh_config
 	@vagrant halt
 	@echo "Making the first network interface bridged to [$(NETWORK_ADAPTER)]"

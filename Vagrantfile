@@ -26,6 +26,8 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision :shell do |sh|
     sh.inline = <<-EOT
+      set -e
+
       echo "Installing rio..."
       wget -qO- https://github.com/ailispaw/rio/releases/download/#{RIO_TAG}/rio-#{RIO_VERSION}-linux-amd64.tar.gz | tar xz
       mv rio-#{RIO_VERSION}-linux-amd64/rio /opt/bin/
