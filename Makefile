@@ -1,6 +1,6 @@
 VM_NAME := rio-barge
 
-NETWORK_ADAPTER := en0: Wi-Fi (AirPort)
+NETWORK_ADAPTER := en0
 
 ID := `cat .vagrant/machines/$(VM_NAME)/virtualbox/id`
 
