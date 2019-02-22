@@ -8,7 +8,7 @@ module VagrantPlugins
   end
 end
 
-RIO_VERSION = "v0.0.4-r6"
+RIO_VERSION = "v0.0.4-rc6"
 
 Vagrant.configure(2) do |config|
   config.vm.define "rio-barge"
