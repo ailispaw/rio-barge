@@ -10,6 +10,7 @@ end
 
 RIO_VERSION     = "v0.0.4-rc6"
 NETWORK_ADAPTOR = "en0: Wi-Fi (Wireless)"
+NUM_OF_NODES    = 2
 
 Vagrant.configure(2) do |config|
   config.vm.box = "ailispaw/barge"
@@ -87,6 +88,23 @@ Vagrant.configure(2) do |config|
 
         rio kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl >/dev/null
       EOT
+    end
+  end
+
+  (1..NUM_OF_NODES).each do |i|
+    config.vm.define "node-%02d" % i do |node|
+      node.vm.hostname = "node-%02d.rio.local" % i
+      node.vm.provision :shell do |sh|
+        sh.inline = <<-EOT
+          echo "SERVER_URL=\\"https://$(cat /vagrant/master-ip):7443\\"" > /etc/default/rio-agent
+          echo "NODE_TOKEN=\\"$(cat /vagrant/node-token)\\"" >> /etc/default/rio-agent
+
+          cd /etc/init.d
+          cp /vagrant/scripts/rio-agent rio-agent
+          ln -s rio-agent S71rio-agent
+          /etc/init.d/rio-agent start
+        EOT
+      end
     end
   end
 end
