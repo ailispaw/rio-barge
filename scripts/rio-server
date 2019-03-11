@@ -1,0 +1,31 @@
+#!/bin/sh
+
+if [ ! -x /opt/bin/rio ]; then
+  exit
+fi
+
+if [ -f /etc/default/rio-server ]; then
+  source /etc/default/rio-server
+fi
+
+case "$1" in
+  start)
+    printf "Starting Rio Server: "
+    start-stop-daemon -S -q -m -b -p /var/run/rio-server.pid --exec /opt/bin/rio server -- \
+      --log /var/log/rio-server.log ${RIO_EXTRA_ARGS}
+    [ $? = 0 ] && echo "OK" || echo "FAIL"
+    ;;
+  stop)
+    printf "Stopping Rio Server: "
+    start-stop-daemon -K -q -p /var/run/rio-server.pid
+    [ $? = 0 ] && echo "OK" || echo "FAIL"
+    ;;
+  restart)
+    "$0" stop
+    sleep 1
+    "$0" start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    ;;
+esac
