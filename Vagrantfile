@@ -16,10 +16,6 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ailispaw/barge"
   config.vm.network :public_network, bridge: NETWORK_ADAPTOR, use_dhcp_assigned_default_route: true
   config.vm.synced_folder ".", "/vagrant", id: "vagrant"
-  config.vm.provider :virtualbox do |vb|
-    vb.cpus   = 2
-    vb.memory = 2048
-  end
 
   config.vm.provision :shell, run: "always" do |sh|
     sh.inline = <<-EOT
@@ -54,6 +50,10 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.define "master" do |node|
+    node.vm.provider :virtualbox do |vb|
+      vb.cpus   = 2
+      vb.memory = 2048
+    end
     node.vm.hostname = "master.rio.local"
     node.vm.provision :shell do |sh|
       sh.inline = <<-EOT
